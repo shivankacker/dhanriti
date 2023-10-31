@@ -51,6 +51,9 @@
                             : "r"
                     } fa-${navItem.icon} text-xl`}
                 />
+                <i
+                    class={`fas fa-${navItem.icon} opacity-0 w-0 h-0 overflow-hidden`}
+                />
             {/if}
         </Link>
     {/each}

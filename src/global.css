@@ -1,7 +1,14 @@
+@font-face {
+    font-family: manrope;
+    src: url('./assets/manrope-variable.ttf');
+}
+
 body {
+    font-family: manrope;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-tap-highlight-color: transparent;
 }
+
 
 
 .ripple {

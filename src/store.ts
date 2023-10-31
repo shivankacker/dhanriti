@@ -3,7 +3,13 @@ import type { Route } from './types/router';
 
 const routerValue: Route[] = []
 
+export type Storage = {
+    auth_token: string;
+    user: any;
+}
+
 export const routerStore: Writable<Route[]> = writable(routerValue);
+export const storage: Writable<Storage | null> = writable(null);
 
 routerStore.subscribe(value => {
     // add to history
@@ -13,3 +19,12 @@ routerStore.subscribe(value => {
     }
     console.log(value);
 });
+
+storage.subscribe(value => {
+    if (value !== null) {
+        localStorage.setItem("storage", JSON.stringify(value));
+    } else {
+        storage.set(JSON.parse(localStorage.getItem("storage") || "{}"));
+    }
+});
+

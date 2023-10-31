@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "android": "cross-env CAP_ENV_TYPE=PROD tsc && vite build && cap sync && cap run android",
+    "android:prev": "cross-env CAP_ENV_TYPE=DEV tsc && cap sync && cap run android",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -14,6 +16,7 @@
     "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "@tsconfig/svelte": "^5.0.0",
     "autoprefixer": "^10.4.16",
+    "cross-env": "^7.0.3",
     "postcss": "^8.4.31",
     "svelte": "^4.0.5",
     "svelte-check": "^3.4.6",
@@ -24,6 +27,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^5.5.1",
-    "@capacitor/core": "^5.5.1"
+    "@capacitor/core": "^5.5.1",
+    "@tanstack/svelte-query": "^5.4.3"
   }
 }

@@ -1,6 +1,8 @@
 
 import Home from "./pages/Home.svelte";
+import Login from "./pages/Login.svelte";
 import Test from "./pages/Test.svelte";
+import VishnuLogin from "./pages/VishnuLogin.svelte";
 import { routerStore } from "./store";
 import type { Route } from "./types/router";
 
@@ -8,10 +10,13 @@ export const routes = {
     "/": Home,
     "/settings": Test,
     "/profile": Test,
-    "/test": Test,
-    "/test/2": Test,
-    "/test/3": Test,
+    "/login": Login,
+    "/vishnu-login": VishnuLogin,
 };
+
+export const mainRoutes = [
+    "/", "/settings", "/profile"
+]
 
 export const navigate = (path: keyof typeof routes) => {
     const newRoute = routes[path];

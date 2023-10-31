@@ -1,7 +1,6 @@
 <script>
     import Page from "../components/Page.svelte";
+    import Link from "../components/routing/Link.svelte";
 </script>
 
-<Page>
-    <h1 class="font-extrabold text-5xl">Welcome to Dhanriti</h1>
-</Page>
+<Page />
