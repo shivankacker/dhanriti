@@ -1,4 +1,5 @@
 import type { Storage } from "../store";
+import type { Canvas } from "../types/canvas";
 import type { User } from "../types/user";
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -46,7 +47,7 @@ const request = async (
         payload = null;
     }
     const storage: Storage = JSON.parse(
-        (await localStorage.getItem("dhanriti-storage")) || "{}"
+        (await localStorage.getItem("storage")) || "{}"
     );
     const localToken = storage.auth_token;
 
@@ -85,6 +86,13 @@ const request = async (
     }
 };
 
+type PaginatedFilters = {
+    limit?: number;
+    offset?: number;
+    ordering?: string;
+    search?: string;
+}
+
 export const API = {
     user: {
         login: (data: {
@@ -97,5 +105,12 @@ export const API = {
         fetch: (username: string) => request(`users/${username}`),
         save: (details: Partial<User>) =>
             request(`users/me`, "PATCH", details),
+    },
+    canvases: {
+        list: (filters: PaginatedFilters = {}) => request(`canvases`, "GET", filters),
+        fetch: (id: string) => request(`canvases/${id}`),
+        create: (canvas: Partial<Canvas>) => request(`canvases`, "POST", canvas),
+        save: (canvas: Partial<Canvas>) => request(`canvases`, "PATCH", canvas),
+        delete: (id: string) => request(`canvases/${id}`, "DELETE"),
     }
 };

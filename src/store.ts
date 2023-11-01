@@ -1,11 +1,13 @@
 import { writable, type Writable } from 'svelte/store';
 import type { Route } from './types/router';
+import type { User } from './types/user';
 
 const routerValue: Route[] = []
 
 export type Storage = {
-    auth_token: string;
-    user: any;
+    auth_token?: string;
+    user?: User;
+    currentCanvasId?: string;
 }
 
 export const routerStore: Writable<Route[]> = writable(routerValue);

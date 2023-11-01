@@ -28,6 +28,7 @@
   "dependencies": {
     "@capacitor/android": "^5.5.1",
     "@capacitor/core": "^5.5.1",
-    "@tanstack/svelte-query": "^5.4.3"
+    "@tanstack/svelte-query": "^5.4.3",
+    "tailwind-merge": "^2.0.0"
   }
 }

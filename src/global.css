@@ -40,3 +40,10 @@ body {
         opacity: 0;
     }
 }
+
+.dhanriti-canvas {
+    background-size: 20px 20px;
+    background-image:
+        linear-gradient(to right, rgb(24, 24, 24) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(24, 24, 24) 1px, transparent 1px);
+}

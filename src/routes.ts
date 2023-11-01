@@ -1,6 +1,7 @@
 
 import Home from "./pages/Home.svelte";
 import Login from "./pages/Login.svelte";
+import Profile from "./pages/Profile.svelte";
 import Test from "./pages/Test.svelte";
 import VishnuLogin from "./pages/VishnuLogin.svelte";
 import { routerStore } from "./store";
@@ -9,7 +10,7 @@ import type { Route } from "./types/router";
 export const routes = {
     "/": Home,
     "/settings": Test,
-    "/profile": Test,
+    "/profile": Profile,
     "/login": Login,
     "/vishnu-login": VishnuLogin,
 };

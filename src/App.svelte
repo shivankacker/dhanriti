@@ -69,6 +69,7 @@
     window.addEventListener("popstate", handlePopstate);
     window.addEventListener("pageshow", handlePopstate);
     document.body.addEventListener("click", handleRipple);
+    //navigate($url.pathname as any);
 
     return () => {
       window.removeEventListener("popstate", handlePopstate);
