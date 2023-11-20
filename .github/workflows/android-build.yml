@@ -1,0 +1,60 @@
+name: Build Android
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.x
+
+      - name: Install app dependencies
+        run: npm install --force
+
+      - name: Build Vite app
+        run: npm run build
+
+      - name: Capacitor sync
+        run: npx cap sync
+
+      - name: Build app bundle
+        run: cd android && ./gradlew bundle
+
+      - name: Extract Android signing key from env
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.keystore.base64
+          base64 -d android/release.keystore.base64 > android/release.decrypted.keystore
+
+      - name: Sign dev build
+        run: jarsigner -keystore android/release.decrypted.keystore -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab writeroo
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: android/app/build/outputs/bundle/release/app-release-signed.aab
+          retention-days: 60
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: dev.shivank.dhanriti
+          releaseFiles: android/app/build/outputs/bundle/release/app-release-signed.aab
+          track: production

@@ -1,0 +1,12 @@
+{
+    "name": "dhanriti",
+    "login_with_kacker": "Login with Kacker",
+    "welcome": "Welcome to Dhanriti",
+    "select_canvas": "Select Canvas",
+    "tank": {
+        "edit": "Edit Tank",
+        "connect": "Connect New Tank",
+        "delete": "Delete Tank",
+        "trigger_inflow": "Trigger Inflow"
+    }
+}
