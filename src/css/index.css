@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-tap-highlight-color: transparent;
-}
-
-@font-face {
-    font-family: manrope;
-    src: url('../assets/fonts/manrope-variable.ttf');
-}
-
-body {
-    font-family: manrope;
-}
-
 .dhanriti-canvas {
     background-size: 20px 20px;
     background-image:

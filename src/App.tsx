@@ -22,12 +22,14 @@ import { TextZoom } from "@capacitor/text-zoom";
 import { goBack } from "./utils/device";
 import { Capacitor } from "@capacitor/core";
 import { ThemeProvider, Theme, RippleProvider } from "@kacker/ui";
+import DesktopWarning from "./components/DesktopWarning";
 function App() {
     const [storage, setStorage] = useAtom(storageAtom);
     const [backListener, setBackListener] = useAtom(backListenerAtom);
     const queryClient = new QueryClient();
     const path = usePath();
     const [localLanguage, setLocalLanguage] = useState<string>("en");
+    const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
     i18n.use(initReactI18next).init({
         resources: {
@@ -106,6 +108,9 @@ function App() {
     useEffect(() => {
         getStorage();
         setDeviceInfo();
+        if (window.innerWidth > 768) {
+            setIsDesktop(true);
+        }
         if (Capacitor.isNativePlatform()) {
             (window.screen.orientation as any).lock("portrait");
             StatusBar.setOverlaysWebView({ overlay: true });
@@ -148,7 +153,7 @@ function App() {
         >
             <RippleProvider>
                 <QueryClientProvider client={queryClient}>
-                    <AppRouter />
+                    {isDesktop ? <DesktopWarning /> : <AppRouter />}
                 </QueryClientProvider>
             </RippleProvider>
         </ThemeProvider>

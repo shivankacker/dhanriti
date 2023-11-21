@@ -8,5 +8,6 @@
         "connect": "Connect New Tank",
         "delete": "Delete Tank",
         "trigger_inflow": "Trigger Inflow"
-    }
+    },
+    "desktop_warning": "Hey! Dhanriti is designed to be viewed on mobile devices. Please switch to mobile or resize your browser to a thinner size and reload."
 }

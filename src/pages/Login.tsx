@@ -36,7 +36,7 @@ export default function Login() {
         serviceTokenMutation.mutate();
     };
     return (
-        <div className="bg-primary font-manrope text-primaryFont h-screen pt-[var(--status-bar-height)] pb-[var(--safe-area-inset-bottom)] relative overflow-hidden">
+        <div className="bg-primary text-primaryFont h-screen pt-[var(--status-bar-height)] pb-[var(--safe-area-inset-bottom)] relative overflow-hidden">
             <div className="flex items-center justify-center flex-col h-full p-10 gap-10">
                 <div className="font-extrabold text-2xl text-center px-10">
                     {t("welcome")}
