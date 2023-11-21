@@ -9,8 +9,7 @@ export default function SettingsPage() {
         <div className="p-4">
             <h1 className="text-2xl font-extrabold">Settings</h1>
             <br />
-            <b>Theme</b>
-            <br />
+            <h2 className="font-extrabold mb-2">Theme</h2>
             <Switch
                 value={storage?.theme?.name || "device"}
                 onChange={(value) => {

@@ -53,6 +53,8 @@ export default function TankForm(props: {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         onSubmit(tank, funnel);
+        setFunnel(newFunnel);
+        setTank(newTank);
     };
 
     useEffect(() => {

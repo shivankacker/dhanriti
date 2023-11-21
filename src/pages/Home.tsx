@@ -31,7 +31,10 @@ export default function HomePage() {
         await Promise.all([canvasQuery.refetch()]);
     };
 
-    const canvasQuery = useQuery(["canvases"], () => API.canvases.list());
+    const canvasQuery = useQuery(["canvases"], () => API.canvases.list(), {
+        enabled: !!storage?.auth_token,
+        refetchInterval: 1000 * 60,
+    });
     const canvases: Canvas[] | undefined = canvasQuery.data?.results;
     const selectedCanvas = canvases?.find(
         (canvas) => canvas.external_id === storage?.selectedCanvasId
@@ -175,13 +178,26 @@ export default function HomePage() {
                     </div>
                 </div>
             )}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col relative">
                 {selectedCanvas ? (
                     <FallBack loading={canvasQuery.isLoading}>
                         <CanvasBlock
                             canvas={selectedCanvas}
                             handleRefresh={handleRefresh}
                         />
+                        <div className="absolute bottom-20 inset-x-0">
+                            <div className="text-center text-gray-500 text-sm">
+                                Total
+                            </div>
+                            <div className=" text-center text-2xl font-extrabold">
+                                <i className="far fa-indian-rupee-sign text-xl" />{" "}
+                                {(
+                                    Math.round(
+                                        (selectedCanvas.total_money || 0) * 100
+                                    ) / 100
+                                ).toLocaleString("en-IN")}
+                            </div>
+                        </div>
                     </FallBack>
                 ) : (
                     <div></div>

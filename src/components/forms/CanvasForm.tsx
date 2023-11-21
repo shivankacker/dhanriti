@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Canvas } from "../../types/canvas";
 import { Button, Input } from "@kacker/ui";
-import cronstre from "cronstrue";
+import cronstrue from "cronstrue";
 
 export default function CanvasForm(props: {
     canvas?: Partial<Canvas>;
@@ -17,15 +17,27 @@ export default function CanvasForm(props: {
     };
 
     const [canvas, setCanvas] = useState(initial || newCanvas);
+    const [cronString, setCronString] = useState("");
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         onSubmit(canvas);
+        setCanvas(initial || newCanvas);
     };
 
     useEffect(() => {
         setCanvas(initial || newCanvas);
     }, [initial]);
+
+    useEffect(() => {
+        let cronString = "";
+        try {
+            cronString = cronstrue.toString(canvas.inflow_rate || "");
+        } catch (error) {
+            cronString = "Invalid Cron";
+        }
+        setCronString(cronString);
+    }, [canvas.inflow_rate]);
 
     return (
         <div className="p-4">
@@ -76,10 +88,7 @@ export default function CanvasForm(props: {
                         right="Cron"
                     />
                     <br />
-                    <p>
-                        {canvas.inflow_rate &&
-                            cronstre.toString(canvas.inflow_rate)}
-                    </p>
+                    <p>{cronString}</p>
                 </div>
                 <Button
                     type="submit"

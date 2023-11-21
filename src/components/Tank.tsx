@@ -231,7 +231,10 @@ export default function TankBlock(props: {
                         <div className="leading-tight">
                             <div className="font-extrabold">{tank.name}</div>
                             <div className="text-sm">
-                                {Math.round((tank.filled || 0) * 100) / 100} /{" "}
+                                {(
+                                    Math.round((tank.filled || 0) * 100) / 100
+                                ).toLocaleString("en-IN")}{" "}
+                                /{" "}
                                 {tank.capacity ? (
                                     tank.capacity
                                 ) : (

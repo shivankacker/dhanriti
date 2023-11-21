@@ -9,6 +9,7 @@ export type Canvas = BaseModelType & {
     filled: number;
     funnels?: Funnel[];
     last_flows?: Flow[];
+    total_money?: number;
 };
 
 export type Funnel = BaseModelType & {
