@@ -89,12 +89,12 @@ export default function HomePage() {
     }, [canvases, storage?.auth_token]);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
+        const timeout = setInterval(() => {
             canvasQuery.refetch();
         }, 1000 * 60);
 
         return () => {
-            clearTimeout(timeout);
+            clearInterval(timeout);
         };
     }, []);
 
