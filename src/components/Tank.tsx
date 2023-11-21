@@ -7,19 +7,24 @@ import TankForm from "./forms/TankForm";
 import { API } from "../utils/api";
 import { useMutation } from "@tanstack/react-query";
 import FunnelBlock from "./Funnel";
+import { FlowType } from "../types/enums";
+import WaveAnimation from "./wave";
 
 export default function TankBlock(props: {
     className?: string;
     funnel: Partial<Funnel>;
     canvas: Canvas;
+    parentTank?: Tank;
     handleRefresh?: () => void;
 }) {
-    const { className, funnel, canvas, handleRefresh } = props;
+    const { className, funnel, canvas, handleRefresh, parentTank } = props;
     const tank = funnel.out_tank as Partial<Tank>;
 
     const [newTankDrawerOpen, setNewTankDrawerOpen] = useState(false);
     const [editTankDrawerOpen, setEditTankDrawerOpen] = useState(false);
     const [deleteTankDrawerOpen, setDeleteTankDrawerOpen] = useState(false);
+    const [inflowDrawerOpen, setInflowDrawerOpen] = useState(false);
+
     const [deleteStrategy, setDeleteStrategy] = useState<
         "discard" | "transfer"
     >("transfer");
@@ -30,13 +35,6 @@ export default function TankBlock(props: {
             icon: "pen",
             onClick: () => {
                 setEditTankDrawerOpen(true);
-            },
-        },
-        {
-            label: t("tank.trigger_inflow"),
-            icon: "tank-water",
-            onClick: () => {
-                console.log("trigger inflow");
             },
         },
         {
@@ -55,6 +53,13 @@ export default function TankBlock(props: {
             icon: "plus",
             onClick: () => {
                 setNewTankDrawerOpen(true);
+            },
+        },
+        {
+            label: t("tank.trigger_inflow"),
+            icon: "tank-water",
+            onClick: () => {
+                setInflowDrawerOpen(true);
             },
         },
     ];
@@ -111,6 +116,20 @@ export default function TankBlock(props: {
         }
     );
 
+    const flowMutation = useMutation(
+        ({ funnel }: { funnel?: Partial<Funnel> }) =>
+            API.flow.trigger(
+                canvas.external_id,
+                funnel?.external_id || undefined
+            ),
+        {
+            onSuccess: async (data, variables) => {
+                handleRefresh?.();
+                setInflowDrawerOpen(false);
+            },
+        }
+    );
+
     const handleNewTankSubmit = async (
         tank: Partial<Tank>,
         funnel?: Partial<Funnel>
@@ -149,7 +168,11 @@ export default function TankBlock(props: {
                                     />
                                 </div>
                                 <div className="text-gray-500 text-sm text-center mb-4 mt-2">
-                                    {((tank.filled || 0) / tank.capacity) * 100}
+                                    {Math.round(
+                                        ((tank.filled || 0) / tank.capacity) *
+                                            100 *
+                                            100
+                                    ) / 100}
                                     % filled
                                 </div>
                             </div>
@@ -158,7 +181,7 @@ export default function TankBlock(props: {
                 >
                     <button
                         className={twMerge(
-                            `flex items-center flex-col gap-2 justify-center bg-primaryOpaque z-10 rounded-lg relative overflow-hidden ring-2 ring-transparent transition-all mt-5`,
+                            `flex items-center flex-col gap-2 justify-center bg-primaryOpaque z-10 rounded-lg relative overflow-hidden ring-4 ring-transparent transition-all mt-5`,
                             className
                         )}
                         style={{
@@ -179,23 +202,29 @@ export default function TankBlock(props: {
                     >
                         {tank.capacity && (
                             <div
-                                className="bg-accent-500/50 absolute inset-x-0 bottom-0 -z-10"
+                                className="absolute inset-x-0 h-full w-full -z-10 opacity-80"
                                 style={{
-                                    height: `${
+                                    bottom: `-${
+                                        100 -
                                         ((tank.filled || 0) / tank.capacity) *
-                                        100
+                                            100
                                     }%`,
+                                    transition: "1s ease",
                                 }}
-                            />
+                            >
+                                <WaveAnimation />
+                            </div>
                         )}
-                        <div>{tank.name}</div>
-                        <div className="font-extrabold">
-                            Rs. {tank.filled}/
-                            {tank.capacity ? (
-                                tank.capacity
-                            ) : (
-                                <i className="far fa-infinity" />
-                            )}
+                        <div className="leading-tight">
+                            <div className="font-extrabold">{tank.name}</div>
+                            <div className="text-sm">
+                                {Math.round((tank.filled || 0) * 100) / 100} /{" "}
+                                {tank.capacity ? (
+                                    tank.capacity
+                                ) : (
+                                    <i className="far fa-infinity" />
+                                )}
+                            </div>
                         </div>
                     </button>
                 </Menu>
@@ -211,6 +240,7 @@ export default function TankBlock(props: {
                                 />
                                 <TankBlock
                                     canvas={canvas}
+                                    parentTank={tank as Tank}
                                     funnel={funnel}
                                     handleRefresh={handleRefresh}
                                 />
@@ -291,6 +321,36 @@ export default function TankBlock(props: {
                           }
                 }
                 onCancel={() => setDeleteTankDrawerOpen(false)}
+            />
+            <WarningDrawer
+                open={inflowDrawerOpen}
+                title={
+                    funnel.external_id
+                        ? "Trigger Inflow from " +
+                          (parentTank?.name || "Main Tank") +
+                          " to " +
+                          tank.name +
+                          "?"
+                        : "Trigger inflow to Main Tank?"
+                }
+                content={
+                    funnel.external_id ? (
+                        <>
+                            This will deduct {funnel.flow}{" "}
+                            {funnel.flow_type === FlowType.PERCENTAGE
+                                ? "%"
+                                : "/-"}{" "}
+                            from {parentTank?.name || "Main Tank"} and add it to{" "}
+                            {tank.name}.
+                        </>
+                    ) : (
+                        <>This will add Rs. {canvas.inflow} to the main tank.</>
+                    )
+                }
+                onConfirm={() => {
+                    flowMutation.mutate({ funnel });
+                }}
+                onCancel={() => setInflowDrawerOpen(false)}
             />
         </>
     );

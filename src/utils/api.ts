@@ -149,4 +149,21 @@ export const API = {
         delete: (canvasId: string, id: string) =>
             request(`canvases/${canvasId}/funnels/${id}`, "DELETE"),
     },
+    flow: {
+        list: (
+            canvas_id: string,
+            filters: PaginatedFilters & { funnel_external_id: string }
+        ) => request(`canvases/${canvas_id}/flows`, "GET", filters),
+        retrieve: (canvas_id: string, flow_id: string) =>
+            request(`canvases/${canvas_id}/flows/${flow_id}`),
+        trigger: (canvas_id: string, funnel_external_id?: string) =>
+            request(
+                `canvases/${canvas_id}/flows/trigger${
+                    funnel_external_id
+                        ? `?funnel_external_id=${funnel_external_id}`
+                        : ""
+                }`,
+                "POST"
+            ),
+    },
 };

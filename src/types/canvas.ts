@@ -8,6 +8,7 @@ export type Canvas = BaseModelType & {
     inflow_rate: string;
     filled: number;
     funnels?: Funnel[];
+    last_flows?: Flow[];
 };
 
 export type Funnel = BaseModelType & {
@@ -20,6 +21,7 @@ export type Funnel = BaseModelType & {
     out_tank?: Tank;
     out_tank_external_id?: string | null;
     in_tank_external_id?: string | null;
+    last_flows?: Flow[];
 };
 
 export type Tank = BaseModelType & {
@@ -29,4 +31,8 @@ export type Tank = BaseModelType & {
     color?: string;
     funnels?: Funnel[];
     filled: number;
+};
+
+export type Flow = BaseModelType & {
+    flowed: number;
 };

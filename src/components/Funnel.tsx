@@ -7,7 +7,11 @@ export default function FunnelBlock(props: {
     funnel: Partial<Funnel>;
     handleRefresh?: () => void;
 }) {
-    const { canvas, tank, funnel, handleRefresh } = props;
+    const { canvas, tank, funnel: initial, handleRefresh } = props;
+
+    const [funnel, setFunnel] = useState<Partial<Funnel>>(initial);
+
+    const [color, setColor] = useState<"gray" | "var(--kui-accent500)">("gray");
 
     const [coordinates, setCoordinates] = useState<{
         x: number;
@@ -64,7 +68,7 @@ export default function FunnelBlock(props: {
             x: outTankRelativeRect.x + outTankRelativeRect.width / 2,
         };
 
-        if (Math.abs(inTankMiddleBottom.x - outTankMiddleTop.x) < 100) {
+        if (Math.abs(inTankMiddleBottom.x - outTankMiddleTop.x) < 50) {
             direction = "s";
             w = 10;
             h =
@@ -101,7 +105,17 @@ export default function FunnelBlock(props: {
 
     useEffect(() => {
         calculateCoordinates();
-    }, [funnel, tank, canvas]);
+        if (
+            initial.last_flows?.[0].external_id !==
+            funnel.last_flows?.[0].external_id
+        ) {
+            setColor("var(--kui-accent500)");
+            setTimeout(() => {
+                setColor("gray");
+            }, 1000);
+        }
+        setFunnel(initial);
+    }, [initial, tank, canvas]);
 
     useEffect(() => {
         calculateCoordinates();
@@ -110,19 +124,24 @@ export default function FunnelBlock(props: {
     return (
         <div
             id={`funnel-${funnel.external_id}`}
-            className="absolute text-xs z-10 opacity-50"
+            className={`absolute text-xs z-10 opacity-50  `}
             style={{
                 left: coordinates.x,
                 top: coordinates.y,
                 width: coordinates.w,
                 height: coordinates.h,
                 borderLeft: ["s", "sw"].includes(coordinates.direction)
-                    ? "10px solid gray"
+                    ? `10px solid ${color}`
                     : "none",
                 borderRight:
-                    coordinates.direction === "se" ? "10px solid gray" : "none",
+                    coordinates.direction === "se"
+                        ? `10px solid ${color}`
+                        : "none",
                 borderTop:
-                    coordinates.direction === "s" ? "none" : "10px solid gray",
+                    coordinates.direction === "s"
+                        ? "none"
+                        : `10px solid ${color}`,
+                transition: "border-color 1s",
             }}
         />
     );

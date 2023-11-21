@@ -18,6 +18,10 @@ const config: CapacitorConfig = {
             resizeOnFullScreen: true,
         },
     },
+    [process.env.CAP_ENV_TYPE !== "DEV" ? "server" : ""]: {
+        url: process.env.CAP_SERVER_URL,
+        cleartext: true,
+    },
 };
 
 export default config;

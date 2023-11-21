@@ -25,7 +25,7 @@ export default function CanvasBlock(props: {
             ref={canvasRef}
         >
             <div
-                className="bg-secondary flex flex-col items-center dhanriti-canvas relative"
+                className="bg-secondary flex flex-col items-center dhanriti-canvas relative px-10 pb-10"
                 id={`canvas-${canvas.external_id}`}
             >
                 <div className="w-screen" />
