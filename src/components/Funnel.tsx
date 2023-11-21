@@ -106,8 +106,8 @@ export default function FunnelBlock(props: {
     useEffect(() => {
         calculateCoordinates();
         if (
-            initial.last_flows?.[0].external_id !==
-            funnel.last_flows?.[0].external_id
+            initial.last_flows?.[0]?.external_id !==
+            funnel.last_flows?.[0]?.external_id
         ) {
             setColor("var(--kui-accent500)");
             setTimeout(() => {

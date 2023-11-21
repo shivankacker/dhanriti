@@ -17,6 +17,7 @@ import CanvasBlock from "../components/Canvas";
 import { useEffect, useState } from "react";
 import CanvasForm from "../components/forms/CanvasForm";
 import Loading from "../components/loading";
+import { navigate } from "raviger";
 
 export default function HomePage() {
     const { t } = useTranslation();
@@ -124,7 +125,10 @@ export default function HomePage() {
                                 {
                                     label: "Flow Records",
                                     onClick: () => {
-                                        console.log("Flow Records");
+                                        navigate(
+                                            "/flows?canvas=" +
+                                                storage?.selectedCanvasId
+                                        );
                                     },
                                     icon: "chart-line",
                                 },

@@ -12,7 +12,7 @@ import SettingsPage from "../pages/Settings";
 import AccountPage from "../pages/Account";
 import HomePage from "../pages/Home";
 
-const InfoPage = React.lazy(() => import("../pages/Info"));
+const FlowRecords = React.lazy(() => import("../pages/FlowRecords"));
 
 const fallback = <RouterFallback />;
 
@@ -75,9 +75,9 @@ export default function AppRouter() {
                 <AccountPage />
             </LazyLoad>
         ),
-        "/info": () => (
+        "/flows": () => (
             <LazyLoad>
-                <InfoPage />
+                <FlowRecords />
             </LazyLoad>
         ),
     };

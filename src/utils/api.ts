@@ -152,7 +152,7 @@ export const API = {
     flow: {
         list: (
             canvas_id: string,
-            filters: PaginatedFilters & { funnel_external_id: string }
+            filters: PaginatedFilters & { funnel_external_id?: string } = {}
         ) => request(`canvases/${canvas_id}/flows`, "GET", filters),
         retrieve: (canvas_id: string, flow_id: string) =>
             request(`canvases/${canvas_id}/flows/${flow_id}`),
