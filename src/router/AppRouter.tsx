@@ -151,7 +151,9 @@ export default function AppRouter() {
             if (route.status === "destroying") {
                 const el = document.querySelector(`[data-route-index="${i}"]`);
                 if (el) {
-                    el.classList.remove("w-screen-handler-screen-ready");
+                    el.classList.remove(
+                        "__kui__screen__handler__screen__ready"
+                    );
                 }
                 setTimeout(() => {
                     setRouteTree((prev) =>
@@ -161,7 +163,7 @@ export default function AppRouter() {
             } else if (route.status === "ready") {
                 const el = document.querySelector(`[data-route-index="${i}"]`);
                 if (el) {
-                    el.classList.add("w-screen-handler-screen-ready");
+                    el.classList.add("__kui__screen__handler__screen__ready");
                 }
             }
         });

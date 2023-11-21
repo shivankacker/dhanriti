@@ -119,12 +119,21 @@ export default function FunnelBlock(props: {
 
     useEffect(() => {
         calculateCoordinates();
+        setTimeout(() => {
+            document
+                .getElementById(`funnel-${funnel.external_id}`)
+                ?.style.setProperty("transition", "1s");
+        }, 1000);
     }, []);
 
     return (
         <div
             id={`funnel-${funnel.external_id}`}
-            className={`absolute text-xs z-10 opacity-50  `}
+            className={`absolute text-xs z-10 ${
+                color === "gray" ? "opacity-50" : "opacity-100"
+            } ${coordinates.direction === "sw" && "rounded-tl-lg"} ${
+                coordinates.direction === "se" && "rounded-tr-lg"
+            }`}
             style={{
                 left: coordinates.x,
                 top: coordinates.y,
@@ -141,7 +150,6 @@ export default function FunnelBlock(props: {
                     coordinates.direction === "s"
                         ? "none"
                         : `10px solid ${color}`,
-                transition: "border-color 1s",
             }}
         />
     );

@@ -19,6 +19,7 @@ export type Funnel = BaseModelType & {
     flow: number;
     flow_type: FlowType;
     out_tank?: Tank;
+    in_tank?: Tank;
     out_tank_external_id?: string | null;
     in_tank_external_id?: string | null;
     last_flows?: Flow[];
@@ -35,4 +36,7 @@ export type Tank = BaseModelType & {
 
 export type Flow = BaseModelType & {
     flowed: number;
+    canvas?: Canvas;
+    funnel?: Funnel;
+    manual?: boolean;
 };

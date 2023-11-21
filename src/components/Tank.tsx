@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import FunnelBlock from "./Funnel";
 import { FlowType } from "../types/enums";
 import WaveAnimation from "./wave";
+import { navigate } from "raviger";
 
 export default function TankBlock(props: {
     className?: string;
@@ -30,6 +31,18 @@ export default function TankBlock(props: {
     >("transfer");
 
     const tankOptions: MenuOption[] = [
+        {
+            label: "Flow Records",
+            onClick: () => {
+                navigate(
+                    "/flows?canvas=" +
+                        canvas?.external_id +
+                        "&funnel=" +
+                        funnel?.external_id
+                );
+            },
+            icon: "chart-line",
+        },
         {
             label: t("tank.edit"),
             icon: "pen",
