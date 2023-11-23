@@ -14,7 +14,7 @@ export default function AccountPage() {
     };
 
     return (
-        <div className="flex flex-col justify-between h-full pb-20">
+        <div className="flex flex-col justify-between h-full pb-20 pt-[calc(var(--status-bar-height,0))]">
             <div className="flex flex-col items-center justify-center py-10 gap-2">
                 <div className="bg-secondary rounded-full text-4xl flex items-center justify-center w-24 h-24">
                     <i className="fad fa-user" />

@@ -6,7 +6,7 @@ export default function SettingsPage() {
     const [storage, setStorage] = useAtom(storageAtom);
 
     return (
-        <div className="p-4">
+        <div className="p-4 pt-[calc(var(--status-bar-height,0)+1rem)]">
             <h1 className="text-2xl font-extrabold">Settings</h1>
             <br />
             <h2 className="font-extrabold mb-2">Theme</h2>

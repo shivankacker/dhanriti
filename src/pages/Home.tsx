@@ -99,7 +99,7 @@ export default function HomePage() {
     }, []);
 
     return (
-        <div className="h-screen flex flex-col justify-between">
+        <div className="h-screen flex flex-col justify-between pt-[calc(var(--status-bar-height,0))]">
             {canvasQuery.isLoading && <Loading />}
             {canvases && canvases.length > 0 && (
                 <div className="p-2 flex gap-2 justify-between items-center">
@@ -195,7 +195,7 @@ export default function HomePage() {
                             canvas={selectedCanvas}
                             handleRefresh={handleRefresh}
                         />
-                        <div className="absolute bottom-20 inset-x-0">
+                        <div className="absolute bottom-20 inset-x-0 pb-[var(--safe-area-inset-bottom)]">
                             <div className="text-center text-gray-500 text-sm">
                                 Total
                             </div>

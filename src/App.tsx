@@ -23,6 +23,7 @@ import { goBack } from "./utils/device";
 import { Capacitor } from "@capacitor/core";
 import { ThemeProvider, Theme, RippleProvider } from "@kacker/ui";
 import DesktopWarning from "./components/DesktopWarning";
+import { SafeAreaController } from "@aashu-dubey/capacitor-statusbar-safe-area";
 function App() {
     const [storage, setStorage] = useAtom(storageAtom);
     const [backListener, setBackListener] = useAtom(backListenerAtom);
@@ -111,6 +112,7 @@ function App() {
         if (window.innerWidth > 768) {
             setIsDesktop(true);
         }
+        SafeAreaController.injectCSSVariables();
         if (Capacitor.isNativePlatform()) {
             (window.screen.orientation as any).lock("portrait");
             StatusBar.setOverlaysWebView({ overlay: true });
