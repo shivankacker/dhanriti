@@ -28,6 +28,7 @@ export default function HomePage() {
     const [createCanvasDrawerOpen, setCreateCanvasDrawerOpen] = useState(false);
 
     const handleRefresh = async () => {
+        if (canvasQuery.isFetching) return;
         await Promise.all([canvasQuery.refetch()]);
     };
 
