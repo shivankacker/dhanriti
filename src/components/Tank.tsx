@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Canvas, Funnel, Tank } from "../types/canvas";
 import { Drawer, Menu, MenuOption, Switch, WarningDrawer } from "@kacker/ui";
@@ -7,9 +7,10 @@ import TankForm from "./forms/TankForm";
 import { API } from "../utils/api";
 import { useMutation } from "@tanstack/react-query";
 import FunnelBlock from "./Funnel";
-import { FlowType } from "../types/enums";
+import { FlowRateType, FlowType } from "../types/enums";
 import WaveAnimation from "./wave";
 import { navigate } from "raviger";
+import parser from "cron-parser";
 
 export default function TankBlock(props: {
     className?: string;
@@ -25,6 +26,7 @@ export default function TankBlock(props: {
     const [editTankDrawerOpen, setEditTankDrawerOpen] = useState(false);
     const [deleteTankDrawerOpen, setDeleteTankDrawerOpen] = useState(false);
     const [inflowDrawerOpen, setInflowDrawerOpen] = useState(false);
+    const [timer, setTimer] = useState<string | null>(null);
 
     const [deleteStrategy, setDeleteStrategy] = useState<
         "discard" | "transfer"
@@ -159,6 +161,46 @@ export default function TankBlock(props: {
         await updateTankMutation.mutateAsync({ tank, funnel });
     };
 
+    const last_flow_time = funnel.last_flows?.[0]?.created_at;
+    const interval = funnel.flow_rate
+        ? parser.parseExpression(funnel.flow_rate, {
+              currentDate: last_flow_time || funnel.created_at,
+          })
+        : null;
+    const nextInterval = interval?.next();
+
+    useEffect(() => {
+        if (nextInterval) {
+            const timer = setTimeout(() => {
+                // get DD:HH:MM:SS from nextInterval
+                const diff = Math.max(nextInterval.getTime() - Date.now(), 0);
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor(
+                    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                const minutes = Math.floor(
+                    (diff % (1000 * 60 * 60)) / (1000 * 60)
+                );
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const daysStr = days !== 0 ? ("0" + days).slice(-2) + ":" : "";
+                const hoursStr =
+                    hours !== 0 ? ("0" + hours).slice(-2) + ":" : "";
+                const minutesStr = ("0" + minutes).slice(-2) + ":";
+                const secondsStr = ("0" + seconds).slice(-2);
+
+                setTimer(`${daysStr}${hoursStr}${minutesStr}${secondsStr}`);
+
+                if (diff <= 2000) {
+                    handleRefresh?.();
+                }
+            }, 1000);
+            return () => {
+                clearTimeout(timer);
+            };
+        }
+    }, [nextInterval]);
+
     return (
         <>
             <div className="flex flex-col items-center shrink-0">
@@ -194,7 +236,7 @@ export default function TankBlock(props: {
                 >
                     <button
                         className={twMerge(
-                            `flex items-center flex-col gap-2 justify-center bg-primaryOpaque z-10 rounded-lg relative overflow-hidden ring-4 ring-transparent transition-all mt-5`,
+                            `flex items-center flex-col gap-2 justify-center bg-primaryOpaque z-10 rounded-lg relative overflow-hidden ring-4 ring-transparent mt-5`,
                             className
                         )}
                         style={{
@@ -241,6 +283,12 @@ export default function TankBlock(props: {
                                     <i className="far fa-infinity" />
                                 )}
                             </div>
+                            {funnel.flow_rate_type === FlowRateType.TIMELY && (
+                                <div className="text-sm text-primaryLightfont flex gap-2 items-center justify-center">
+                                    <i className="far fa-clock" />
+                                    {timer}
+                                </div>
+                            )}
                         </div>
                     </button>
                 </Menu>

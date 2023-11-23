@@ -558,10 +558,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@kacker/ui@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@kacker/ui/-/ui-1.0.0.tgz#aea64271739acc3b1eb88c0b5e6c2074020f1223"
-  integrity sha512-tbBZ4XWLdHUJ/0+8GnYwbYa8bv1OJ4o3G4FzPgTXJ7yCduxrn8S7sedlddtR1898+sIh1PReg2dEvPvUPs5YXQ==
+"@kacker/ui@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@kacker/ui/-/ui-1.1.0.tgz#bb43fa65e4fdf10b6b50c41e61fd02c2acd5a6ee"
+  integrity sha512-7HFcSvDQsIXNzu6IWlTPMXjf3Wq5Rcir4tkt8pnMlM6sw6nXPlunMieALX799WQ39a6wofNMLhsoVDrTSmMwxg==
   dependencies:
     "@aashu-dubey/capacitor-statusbar-safe-area" "^2.1.1"
     "@babel/preset-react" "^7.22.5"
@@ -1791,6 +1791,13 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
+
+cron-parser@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/cron-parser/-/cron-parser-4.9.0.tgz#0340694af3e46a0894978c6f52a6dbb5c0f11ad5"
+  integrity sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==
+  dependencies:
+    luxon "^3.2.1"
 
 cronstrue@^2.44.0:
   version "2.44.0"
@@ -3435,6 +3442,11 @@ lru-cache@^6.0.0:
   integrity sha512-Yj9mA8fPiVgOUpByoTZO5pNrcl5Yk37FcSHsUINpAsaBIEZIuqcCclDZJCVxqQShDsmYX8QG63svJiTbOATZwg==
   dependencies:
     semver "^7.3.5"
+
+luxon@^3.2.1:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.4.4.tgz#cf20dc27dc532ba41a169c43fdcc0063601577af"
+  integrity sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==
 
 magic-string@^0.30.3:
   version "0.30.5"

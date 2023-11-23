@@ -22,6 +22,7 @@ export default function FunnelBlock(props: {
     }>({ x: 0, y: 0, h: 0, w: 0, direction: "s" });
 
     const calculateCoordinates = () => {
+        console.log("calculating coordinates");
         const inTankElement = document.getElementById(
             `tank-${tank.external_id}`
         );
@@ -105,9 +106,13 @@ export default function FunnelBlock(props: {
 
     useEffect(() => {
         calculateCoordinates();
+    }, [canvas]);
+
+    useEffect(() => {
         if (
+            funnel &&
             initial.last_flows?.[0]?.external_id !==
-            funnel.last_flows?.[0]?.external_id
+                funnel.last_flows?.[0]?.external_id
         ) {
             setColor("var(--kui-accent500)");
             setTimeout(() => {
@@ -115,10 +120,9 @@ export default function FunnelBlock(props: {
             }, 1000);
         }
         setFunnel(initial);
-    }, [initial, tank, canvas]);
+    }, [initial]);
 
     useEffect(() => {
-        calculateCoordinates();
         setTimeout(() => {
             document
                 .getElementById(`funnel-${funnel.external_id}`)

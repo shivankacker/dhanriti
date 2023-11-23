@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "dev.shivank.dhanriti",
+            "sha256_cert_fingerprints": [
+                "47:86:F2:37:4A:8C:E8:B6:A9:A6:1D:E0:96:85:25:D7:6C:68:B1:48:3B:F7:51:9C:59:CB:A0:39:6C:F8:39:4F"
+            ]
+        }
+    }
+]

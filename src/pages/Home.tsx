@@ -90,7 +90,7 @@ export default function HomePage() {
 
     useEffect(() => {
         const timeout = setInterval(() => {
-            canvasQuery.refetch();
+            //canvasQuery.refetch();
         }, 1000 * 60);
 
         return () => {

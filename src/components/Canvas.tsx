@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { Canvas, Tank } from "../types/canvas";
 import TankBlock from "./Tank";
 import FunnelBlock from "./Funnel";
+import { FlowRateType } from "../types/enums";
+import { storageAtom } from "../store";
+import { useAtom } from "jotai";
 
 export default function CanvasBlock(props: {
     canvas: Canvas;
@@ -9,6 +12,7 @@ export default function CanvasBlock(props: {
 }) {
     const { canvas, handleRefresh } = props;
     const canvasRef = useRef<HTMLDivElement>(null);
+    const [storage, setStorage] = useAtom(storageAtom);
 
     useEffect(() => {
         //scroll to center
@@ -17,7 +21,7 @@ export default function CanvasBlock(props: {
                 canvasRef.current.scrollWidth / 2 -
                 canvasRef.current.clientWidth / 2;
         }
-    }, [canvas]);
+    }, [storage?.selectedCanvasId]);
 
     return (
         <div
@@ -37,6 +41,8 @@ export default function CanvasBlock(props: {
                 <TankBlock
                     canvas={canvas}
                     funnel={{
+                        flow_rate_type: FlowRateType.TIMELY,
+                        flow_rate: canvas.inflow_rate,
                         out_tank: {
                             name: "Main Tank",
                             filled: canvas.filled,
