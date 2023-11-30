@@ -1,6 +1,8 @@
 {
     "name": "dhanriti",
     "login_with_kacker": "Login with Kacker",
+    "login_title": "A better way to manage your finances",
+    "login_description": "Login with your Kacker account to get started",
     "welcome": "Welcome to Dhanriti",
     "select_canvas": "Select Canvas",
     "tank": {

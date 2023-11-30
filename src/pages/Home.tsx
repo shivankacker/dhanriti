@@ -7,6 +7,7 @@ import {
     Menu,
     Select,
     WarningDrawer,
+    raviger,
 } from "@kacker/ui";
 import { useAtom } from "jotai";
 import { storageAtom } from "../store";
@@ -17,7 +18,6 @@ import CanvasBlock from "../components/Canvas";
 import { useEffect, useState } from "react";
 import CanvasForm from "../components/forms/CanvasForm";
 import Loading from "../components/loading";
-import { navigate } from "raviger";
 
 export default function HomePage() {
     const { t } = useTranslation();
@@ -34,7 +34,6 @@ export default function HomePage() {
 
     const canvasQuery = useQuery(["canvases"], () => API.canvases.list(), {
         enabled: !!storage?.auth_token,
-        refetchInterval: 1000 * 60,
     });
     const canvases: Canvas[] | undefined = canvasQuery.data?.results;
     const selectedCanvas = canvases?.find(
@@ -139,7 +138,7 @@ export default function HomePage() {
                                 {
                                     label: "Flow Records",
                                     onClick: () => {
-                                        navigate(
+                                        raviger.navigate(
                                             "/flows?canvas=" +
                                                 storage?.selectedCanvasId
                                         );
@@ -192,11 +191,13 @@ export default function HomePage() {
             <div className="flex-1 flex flex-col relative">
                 {selectedCanvas ? (
                     <FallBack loading={canvasQuery.isLoading}>
-                        <CanvasBlock
-                            canvas={selectedCanvas}
-                            handleRefresh={handleRefresh}
-                        />
-                        <div className="absolute bottom-20 inset-x-0 pb-[var(--safe-area-inset-bottom)]">
+                        <div className="flex-1 overflow-auto">
+                            <CanvasBlock
+                                canvas={selectedCanvas}
+                                handleRefresh={handleRefresh}
+                            />
+                        </div>
+                        <div className="absolute bottom-20 z-10 inset-x-0 pb-[var(--safe-area-inset-bottom)]">
                             <div className="text-center text-gray-500 text-sm">
                                 Total
                             </div>

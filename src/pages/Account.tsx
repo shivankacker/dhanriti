@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { storageAtom } from "../store";
-import { Link } from "raviger";
+import { raviger } from "@kacker/ui";
 
 export default function AccountPage() {
     const [storage, setStorage] = useAtom(storageAtom);
@@ -30,13 +30,13 @@ export default function AccountPage() {
                 </button>
             </div>
             <div className="p-4 text-center">
-                <Link
+                <raviger.Link
                     href="https://github.com/skks1212/dhanriti"
                     className="text-blue-500"
                     target="_blank"
                 >
                     <i className="fab fa-github" /> Contribute
-                </Link>
+                </raviger.Link>
             </div>
         </div>
     );

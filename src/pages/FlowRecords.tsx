@@ -1,12 +1,11 @@
-import { FallBack, Page } from "@kacker/ui";
+import { FallBack, Page, raviger } from "@kacker/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useQueryParams } from "raviger";
 import { API } from "../utils/api";
 import { Flow } from "../types/canvas";
 import moment from "moment";
 
 export default function FlowRecords() {
-    const [qparams] = useQueryParams();
+    const [qparams] = raviger.useQueryParams();
 
     const { funnel, canvas, tank } = qparams;
 

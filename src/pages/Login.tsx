@@ -6,7 +6,7 @@ import { API } from "../utils/api";
 import { storageAtom } from "../store";
 import { useAtom } from "jotai";
 import { Capacitor } from "@capacitor/core";
-import { LoginWithKacker } from "@kacker/ui";
+import { LoginWithKacker, RawPage } from "@kacker/ui";
 
 export default function Login() {
     const [storage, setStorage] = useAtom(storageAtom);
@@ -36,11 +36,25 @@ export default function Login() {
         serviceTokenMutation.mutate();
     };
     return (
-        <div className="bg-primary text-primaryFont h-screen pt-[var(--status-bar-height)] pb-[var(--safe-area-inset-bottom)] relative overflow-hidden">
-            <div className="flex items-center justify-center flex-col h-full p-10 gap-10">
-                <div className="font-extrabold text-2xl text-center px-10">
-                    {t("welcome")}
+        <RawPage>
+            <div className="flex justify-end flex-col h-full p-8 gap-10">
+                <div>
+                    <img
+                        src={`/logo_full_${
+                            document.documentElement.style.getPropertyValue(
+                                "--kui-theme-type"
+                            ) === "dark"
+                                ? "white"
+                                : "black"
+                        }.svg`}
+                        className="h-16"
+                        alt="Logo"
+                    />
                 </div>
+                <div className="font-extrabold text-5xl leading-[1.1]">
+                    {t("login_title")}
+                </div>
+                <div className="text-gray-500">{t("login_description")}</div>
                 <div className="w-full">
                     <LoginWithKacker
                         className="w-full"
@@ -50,7 +64,7 @@ export default function Login() {
                 </div>
             </div>
             <div className="absolute -bottom-10 -inset-x-10 h-[70%] bg-gradient-to-t from-accent-400 to-transparent gradient-pulsate blur-lg hidden" />
-        </div>
+        </RawPage>
     );
 }
 
@@ -81,7 +95,7 @@ export function VishnuLogin() {
     };
 
     return (
-        <div className="flex items-center justify-center h-full">
+        <RawPage>
             {loginMutation.isError || !token ? (
                 <div className="text-center">
                     There was an error logging in.
@@ -94,6 +108,6 @@ export function VishnuLogin() {
             ) : (
                 <div>Logging in...</div>
             )}
-        </div>
+        </RawPage>
     );
 }

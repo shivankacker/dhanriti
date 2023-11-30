@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+    font-family: "Manrope";
+    src: url("../assets/fonts/manrope-variable.ttf") format("truetype");
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+body {
+    font-family: "Manrope", sans-serif;
+}
+
 .dhanriti-canvas {
     background-size: 20px 20px;
     background-image:

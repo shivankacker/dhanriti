@@ -9,7 +9,6 @@ import {
 import { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { API } from "./utils/api";
-import { navigate, usePath } from "raviger";
 import { App as CapacitorApp } from "@capacitor/app";
 import translation from "./i18n/en/translation.json";
 import hindi from "./i18n/hi/translation.json";
@@ -21,14 +20,14 @@ import { useAtom } from "jotai";
 import { TextZoom } from "@capacitor/text-zoom";
 import { goBack } from "./utils/device";
 import { Capacitor } from "@capacitor/core";
-import { ThemeProvider, Theme, RippleProvider } from "@kacker/ui";
+import { ThemeProvider, Theme, RippleProvider, raviger } from "@kacker/ui";
 import DesktopWarning from "./components/DesktopWarning";
 import { SafeAreaController } from "@aashu-dubey/capacitor-statusbar-safe-area";
 function App() {
     const [storage, setStorage] = useAtom(storageAtom);
     const [backListener, setBackListener] = useAtom(backListenerAtom);
     const queryClient = new QueryClient();
-    const path = usePath();
+    const path = raviger.usePath();
     const [localLanguage, setLocalLanguage] = useState<string>("en");
     const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
@@ -87,7 +86,7 @@ function App() {
         if (storage === null) return;
         if (!storage?.auth_token) {
             if (!path || ["/login"].includes(path)) return;
-            navigate("/login", { replace: true });
+            raviger.navigate("/login", { replace: true });
         }
     }, [storage]);
 

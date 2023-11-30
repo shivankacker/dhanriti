@@ -22,7 +22,8 @@ export default function CanvasForm(props: {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         onSubmit(canvas);
-        setCanvas(initial || newCanvas);
+        if (initial) return;
+        setCanvas(newCanvas);
     };
 
     useEffect(() => {

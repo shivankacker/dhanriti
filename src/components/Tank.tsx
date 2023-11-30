@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Canvas, Funnel, Tank } from "../types/canvas";
-import { Drawer, Menu, MenuOption, Switch, WarningDrawer } from "@kacker/ui";
+import {
+    Drawer,
+    Menu,
+    MenuOption,
+    Switch,
+    WarningDrawer,
+    raviger,
+} from "@kacker/ui";
 import { t } from "i18next";
 import TankForm from "./forms/TankForm";
 import { API } from "../utils/api";
@@ -9,8 +16,8 @@ import { useMutation } from "@tanstack/react-query";
 import FunnelBlock from "./Funnel";
 import { FlowRateType, FlowType } from "../types/enums";
 import WaveAnimation from "./wave";
-import { navigate } from "raviger";
 import parser from "cron-parser";
+import moment from "moment";
 
 export default function TankBlock(props: {
     className?: string;
@@ -36,7 +43,7 @@ export default function TankBlock(props: {
         {
             label: "Flow Records",
             onClick: () => {
-                navigate(
+                raviger.navigate(
                     "/flows?canvas=" +
                         canvas?.external_id +
                         "&funnel=" +
@@ -161,45 +168,61 @@ export default function TankBlock(props: {
         await updateTankMutation.mutateAsync({ tank, funnel });
     };
 
-    const last_flow_time = funnel.last_flows?.[0]?.created_at;
-    const interval = funnel.flow_rate
-        ? parser.parseExpression(funnel.flow_rate, {
-              currentDate: last_flow_time || funnel.created_at,
-          })
-        : null;
-    const nextInterval = interval?.next();
-
     useEffect(() => {
-        if (nextInterval) {
-            const timer = setTimeout(() => {
-                // get DD:HH:MM:SS from nextInterval
-                const diff = Math.max(nextInterval.getTime() - Date.now(), 0);
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor(
-                    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                );
-                const minutes = Math.floor(
-                    (diff % (1000 * 60 * 60)) / (1000 * 60)
-                );
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        if (funnel.flow_rate_type === FlowRateType.TIMELY && tank.external_id) {
+            const timer = setInterval(() => {
+                const last_flow_time = funnel.last_flows?.[0]?.created_at;
+                const interval = funnel.flow_rate
+                    ? parser.parseExpression(funnel.flow_rate, {
+                          currentDate: last_flow_time || funnel.created_at,
+                      })
+                    : null;
+                const nextInterval = interval?.next();
+                if (nextInterval) {
+                    // get DD:HH:MM:SS from nextInterval
+                    const diff = Math.max(
+                        nextInterval.getTime() - Date.now(),
+                        0
+                    );
+                    console.clear();
+                    console.table({
+                        tank: funnel.out_tank?.name,
+                        secondsLeft: nextInterval.getTime() - Date.now(),
+                        lastFlowTime: moment(last_flow_time).format("LLL"),
+                        currentTime: moment(Date.now()).format("LLL"),
+                        nextInterval: moment(nextInterval.getTime()).format(
+                            "LLL"
+                        ),
+                    });
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor(
+                        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                    );
+                    const minutes = Math.floor(
+                        (diff % (1000 * 60 * 60)) / (1000 * 60)
+                    );
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-                const daysStr = days !== 0 ? ("0" + days).slice(-2) + ":" : "";
-                const hoursStr =
-                    hours !== 0 ? ("0" + hours).slice(-2) + ":" : "";
-                const minutesStr = ("0" + minutes).slice(-2) + ":";
-                const secondsStr = ("0" + seconds).slice(-2);
+                    const daysStr =
+                        days !== 0 ? ("0" + days).slice(-2) + ":" : "";
+                    const hoursStr =
+                        hours !== 0 ? ("0" + hours).slice(-2) + ":" : "";
+                    const minutesStr = ("0" + minutes).slice(-2) + ":";
+                    const secondsStr = ("0" + seconds).slice(-2);
 
-                setTimer(`${daysStr}${hoursStr}${minutesStr}${secondsStr}`);
+                    setTimer(`${daysStr}${hoursStr}${minutesStr}${secondsStr}`);
 
-                if (diff <= 2000) {
-                    handleRefresh?.();
+                    if (diff <= 2000) {
+                        //console.log("triggering flow", funnel);
+                        //handleRefresh?.();
+                    }
                 }
             }, 1000);
             return () => {
-                clearTimeout(timer);
+                clearInterval(timer);
             };
         }
-    }, [nextInterval]);
+    }, []);
 
     return (
         <>
