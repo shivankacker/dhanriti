@@ -12,6 +12,7 @@ import AccountPage from "../pages/Account";
 import HomePage from "../pages/Home";
 
 const FlowRecords = React.lazy(() => import("../pages/FlowRecords"));
+const UpiPay = React.lazy(() => import("../pages/Upi"));
 
 const fallback = <RouterFallback />;
 
@@ -71,6 +72,11 @@ export default function AppRouter() {
         "/flows": () => (
             <LazyLoad>
                 <FlowRecords />
+            </LazyLoad>
+        ),
+        "/upi/:canvasID/:tankID": ({ canvasID, tankID }: any) => (
+            <LazyLoad>
+                <UpiPay canvasID={canvasID} tankID={tankID} />
             </LazyLoad>
         ),
     };

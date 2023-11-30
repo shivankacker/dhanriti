@@ -71,6 +71,15 @@ export default function TankBlock(props: {
 
     const mainTankOptions: MenuOption[] = [
         {
+            label: t("tank.pay_with_upi"),
+            icon: "qrcode",
+            onClick: () => {
+                raviger.navigate(
+                    "/upi/" + canvas.external_id + "/" + tank.external_id
+                );
+            },
+        },
+        {
             label: t("tank.connect"),
             icon: "plus",
             onClick: () => {
@@ -169,7 +178,7 @@ export default function TankBlock(props: {
     };
 
     useEffect(() => {
-        if (funnel.flow_rate_type === FlowRateType.TIMELY && tank.external_id) {
+        if (funnel.flow_rate_type === FlowRateType.TIMELY) {
             const timer = setInterval(() => {
                 const last_flow_time = funnel.last_flows?.[0]?.created_at;
                 const interval = funnel.flow_rate
@@ -213,8 +222,8 @@ export default function TankBlock(props: {
                     setTimer(`${daysStr}${hoursStr}${minutesStr}${secondsStr}`);
 
                     if (diff <= 2000) {
-                        //console.log("triggering flow", funnel);
-                        //handleRefresh?.();
+                        console.log("triggering flow", funnel);
+                        handleRefresh?.();
                     }
                 }
             }, 1000);
@@ -222,7 +231,7 @@ export default function TankBlock(props: {
                 clearInterval(timer);
             };
         }
-    }, []);
+    }, [funnel, tank, canvas]);
 
     return (
         <>

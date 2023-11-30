@@ -88,16 +88,6 @@ export default function HomePage() {
         }
     }, [canvases, storage?.auth_token]);
 
-    useEffect(() => {
-        const timeout = setInterval(() => {
-            //canvasQuery.refetch();
-        }, 1000 * 60);
-
-        return () => {
-            clearInterval(timeout);
-        };
-    }, []);
-
     return (
         <div className="h-screen flex flex-col justify-between pt-[calc(var(--status-bar-height,0))]">
             {canvasQuery.isLoading && <Loading />}

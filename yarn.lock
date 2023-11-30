@@ -558,10 +558,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@kacker/ui@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@kacker/ui/-/ui-1.1.1.tgz#ea421393f04dcc1afc3baa81c9dd47c6e863e1f4"
-  integrity sha512-ksyVGv8M0yMbla/rqBY63TYKxMr8ELO36Z7waX+UJoJw1eqRPBX6OpOwwi65iZznFrdTqxlYci8k/FUV3nmoFw==
+"@kacker/ui@^1.2.0":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@kacker/ui/-/ui-1.2.1.tgz#90f8909d771f6dbf06c47a1d8bbc5f925afc459c"
+  integrity sha512-scEdhkyJQCtG4rsAaPhi9u4I3lGqlJldTRklZ/hAZeUBLAmiHamG0ktRrmshMKaZmtLG2txffAIqO8eTFqm6jw==
   dependencies:
     "@aashu-dubey/capacitor-statusbar-safe-area" "^2.1.1"
     "@babel/preset-react" "^7.22.5"

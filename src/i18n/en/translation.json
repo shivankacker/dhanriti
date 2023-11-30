@@ -9,7 +9,11 @@
         "edit": "Edit Tank",
         "connect": "Connect New Tank",
         "delete": "Delete Tank",
-        "trigger_inflow": "Trigger Inflow"
+        "trigger_inflow": "Trigger Inflow",
+        "pay_with_upi": "Pay with UPI"
     },
-    "desktop_warning": "Hey! Dhanriti is designed to be viewed on mobile devices. Please switch to mobile or resize your browser to a thinner size and reload."
+    "desktop_warning": "Hey! Dhanriti is designed to be viewed on mobile devices. Please switch to mobile or resize your browser to a thinner size and reload.",
+    "upi": {
+        "paying": "Paying from {{name}}"
+    }
 }

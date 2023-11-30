@@ -1,4 +1,5 @@
 import { Canvas, Funnel, Tank } from "../types/canvas";
+import { Payment } from "../types/payments";
 import { Storage } from "../types/storage";
 export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -168,6 +169,27 @@ export const API = {
                         : ""
                 }`,
                 "POST"
+            ),
+    },
+    payments: {
+        list: (
+            canvas_id: string,
+            tank_id: string,
+            filters: PaginatedFilters = {}
+        ) => request(`canvases/${canvas_id}/tanks/${tank_id}/payments`, "GET"),
+        retrieve: (canvas_id: string, tank_id: string, payment_id: string) =>
+            request(
+                `canvases/${canvas_id}/tanks/${tank_id}/payments/${payment_id}`
+            ),
+        create: (
+            canvas_id: string,
+            tank_id: string,
+            payment: Partial<Payment>
+        ) =>
+            request(
+                `canvases/${canvas_id}/tanks/${tank_id}/payments`,
+                "POST",
+                payment
             ),
     },
 };
