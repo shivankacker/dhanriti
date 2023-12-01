@@ -17,7 +17,6 @@ import FunnelBlock from "./Funnel";
 import { FlowRateType, FlowType } from "../types/enums";
 import WaveAnimation from "./wave";
 import parser from "cron-parser";
-import moment from "moment";
 
 export default function TankBlock(props: {
     className?: string;
@@ -193,8 +192,8 @@ export default function TankBlock(props: {
                         nextInterval.getTime() - Date.now(),
                         0
                     );
-                    console.clear();
-                    console.table({
+                    //console.clear();
+                    /*console.table({
                         tank: funnel.out_tank?.name,
                         secondsLeft: nextInterval.getTime() - Date.now(),
                         lastFlowTime: moment(last_flow_time).format("LLL"),
@@ -202,7 +201,7 @@ export default function TankBlock(props: {
                         nextInterval: moment(nextInterval.getTime()).format(
                             "LLL"
                         ),
-                    });
+                    });*/
                     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                     const hours = Math.floor(
                         (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
